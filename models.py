@@ -24,8 +24,11 @@ class KProp(MessagePassing):
         return self._cached_x
 
     def neighborhood_aggregation(self, x, adj_t):
+
         if self.K <= 0:
             return x
+
+        similarity_adj = similarity_methods.get_grarep_similarity_matrix(adj_t)
 
         if self.normalize:
             adj_t = gcn_norm(adj_t, add_self_loops=False)
@@ -33,8 +36,12 @@ class KProp(MessagePassing):
         if self.add_self_loops:
             adj_t = adj_t.set_diag()
 
-        for k in range(self.K):
-            x = self.propagate(adj_t, x=x)
+        for k in range(self.K-2):
+            x = self.propagate(similarity_adj, x=x)
+
+        similarity_adj = gcn_norm(similarity_adj, add_self_loops=False)
+        #similarity_adj.set_diag()
+        x = self.propagate(similarity_adj,x=x)
 
         x = self.transform(x)
         return x
