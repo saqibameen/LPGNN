@@ -37,7 +37,7 @@ class KProp(MessagePassing):
             adj_t = adj_t.set_diag()
 
         for k in range(self.K-2):
-            x = self.propagate(similarity_adj, x=x)
+            x = self.propagate(adj_t, x=x)
 
         similarity_adj = gcn_norm(similarity_adj, add_self_loops=False)
         #similarity_adj.set_diag()
