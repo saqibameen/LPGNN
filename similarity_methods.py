@@ -5,8 +5,8 @@ from torch_sparse import SparseTensor
 grarep_similarity_matrix = None
 
 
-def get_grarep_similarity_matrix(adj_t, transition_steps=10, similarity_threshold=0.01):
-    global grarep_similarity_matrix 
+def get_grarep_similarity_matrix(adj_t, transition_steps=10, similarity_threshold=0.1):
+    global grarep_similarity_matrix
     if grarep_similarity_matrix is not None:
         return grarep_similarity_matrix
     else:
@@ -22,6 +22,8 @@ def get_grarep_similarity_matrix(adj_t, transition_steps=10, similarity_threshol
             for col, col_tensor in enumerate(row_tensor):
                 if product_tensor[row,col] > 0:
                     final_adj_tensor[row] = final_adj_tensor[row]+adj_tensor[col]
+                if row == col:
+                    final_adj_tensor[row,col] = 0
 
         final_adj_tensor = torch.where(final_adj_tensor>0,1.0,0.0)
         grarep_similarity_matrix = SparseTensor.from_dense(final_adj_tensor)
