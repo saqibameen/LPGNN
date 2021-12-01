@@ -5,6 +5,7 @@ from torch_geometric.utils import accuracy as accuracy_1d
 from torch.nn import Dropout, SELU
 from torch_geometric.nn import MessagePassing, SAGEConv, GCNConv, GATConv
 from torch_sparse import matmul
+import similarity_methods
 
 
 class KProp(MessagePassing):
