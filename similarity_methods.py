@@ -43,11 +43,10 @@ def get_deep_walk_similairy_matrix(adj_matrix):
     if deep_walk_similarity_matrix is not None:
         return deep_walk_similarity_matrix
     else:
-        dense_adj_matrix = torch.from_numpy(get_similarity_matrix(adj_matrix))
-        dense_adj_matrix = torch.sparse_coo_tensor(dense_adj_matrix.nonzero(), dense_adj_matrix.data, dense_adj_matrix.shape)
-        return dense_adj_matrix
-        # Convert to dense tensor
-        # dense_adj_matrix = dense_adj_matrix.to_dense()
-        # return SparseTensor.from_dense(dense_adj_matrix)
+
+        adj_matrix = torch.from_numpy(get_similarity_matrix(adj_matrix))
+        sparse_adj_matrix = adj_matrix.to_sparse()
+        dense_adj_matrix = sparse_adj_matrix.to_dense()
+        return SparseTensor.from_dense(dense_adj_matrix)
         
 
