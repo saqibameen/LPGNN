@@ -1,10 +1,13 @@
 import numpy as np
 from numpy.linalg import norm
 import os
+import time
 
 def get_similarity_matrix(adj_matrix , threshold=0.0001):
     threshold = threshold
-    path = './temp'
+
+    unique_time =  round(time.time() * 1000)
+    path = './temp' + str(unique_time)
 
     # Transform to adjlist for deepwalk.
     for i in range(len(adj_matrix)):
@@ -24,7 +27,7 @@ def get_similarity_matrix(adj_matrix , threshold=0.0001):
         adj_list.write(str(row)[1:-1].replace(",", "") + '\n')
     adj_list.close()
 
-    output_path = "output.embeddings"
+    output_path = "output" + str(unique_time) + ".embeddings"
 
     print("Running DeepWalk...")
     os.system("python3 deepwalk --input " + file_save_path + " --output " + output_path)
