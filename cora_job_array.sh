@@ -3,7 +3,7 @@
 #SBATCH --cpus-per-task=1   # maximum CPU cores per GPU request: 6 on Cedar, 16 on Graham.
 #SBATCH --mem=64000M        # memory per node
 #SBATCH --time=00:20:00     # time of the task
-#SBATCH --account=def-lelis
+#SBATCH --account=reg-lelis
 #SBATCH --output=%N-%j.out
 #SBATCH --mail-user=saqib1@ualberta.ca
 #SBATCH --mail-type=ALL
