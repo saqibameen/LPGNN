@@ -1,12 +1,22 @@
 import torch
 from torch_geometric.transforms import ToSparseTensor
 from torch_sparse import SparseTensor
+import numpy as np
+from deepwalkprocessor import get_similarity_matrix 
+
 
 grarep_similarity_matrix = None
+deep_walk_similarity_matrix = None
+
+def compute_similarity_matrix(adjacency_matrix, similarity_method):
+    if(similarity_method == 'grarep'):
+        get_grarep_similarity_matrix(adjacency_matrix)
+    elif(similarity_method == 'deepwalk'):
+        get_deep_walk_similairy_matrix(adjacency_matrix.to_dense().numpy())
 
 
-def get_grarep_similarity_matrix(adj_t, transition_steps=10, similarity_threshold=0.1):
-    global grarep_similarity_matrix
+def get_grarep_similarity_matrix(adj_t, transition_steps=10, similarity_threshold=0.01):     
+    global grarep_similarity_matrix 
     if grarep_similarity_matrix is not None:
         return grarep_similarity_matrix
     else:
@@ -22,15 +32,15 @@ def get_grarep_similarity_matrix(adj_t, transition_steps=10, similarity_threshol
             for col, col_tensor in enumerate(row_tensor):
                 if product_tensor[row,col] > 0:
                     final_adj_tensor[row] = final_adj_tensor[row]+adj_tensor[col]
-                if row == col:
-                    final_adj_tensor[row,col] = 0
 
         final_adj_tensor = torch.where(final_adj_tensor>0,1.0,0.0)
         grarep_similarity_matrix = SparseTensor.from_dense(final_adj_tensor)
         #grarep_similarity_matrix = adj_t
         return grarep_similarity_matrix
 
-
-        
-
-    
+def get_deep_walk_similairy_matrix(adj_matrix):
+    global deep_walk_similarity_matrix 
+    if deep_walk_similarity_matrix is not None:
+        return deep_walk_similarity_matrix
+    else:
+        return get_similarity_matrix(adj_matrix)

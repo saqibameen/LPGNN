@@ -28,7 +28,7 @@ class KProp(MessagePassing):
         if self.K <= 0:
             return x
 
-        similarity_adj = similarity_methods.get_grarep_similarity_matrix(adj_t)
+        similarity_adj = similarity_methods.compute_similarity_matrix('deepwalk', adj_t)
 
         if self.normalize:
             adj_t = gcn_norm(adj_t, add_self_loops=False)
