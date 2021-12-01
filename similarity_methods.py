@@ -43,5 +43,5 @@ def get_deep_walk_similairy_matrix(adj_matrix):
     if deep_walk_similarity_matrix is not None:
         return deep_walk_similarity_matrix
     else:
-        return SparseTensor(torch.from_numpy(get_similarity_matrix(adj_matrix)))
+        return SparseTensor(torch.tensor(torch.from_numpy(get_similarity_matrix(adj_matrix))))
 
