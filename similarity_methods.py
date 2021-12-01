@@ -8,7 +8,7 @@ from deepwalkprocessor import get_similarity_matrix
 grarep_similarity_matrix = None
 deep_walk_similarity_matrix = None
 
-def compute_similarity_matrix(adjacency_matrix, similarity_method):
+def compute_similarity_matrix(similarity_method, adjacency_matrix):
     if(similarity_method == 'grarep'):
         get_grarep_similarity_matrix(adjacency_matrix)
     elif(similarity_method == 'deepwalk'):
