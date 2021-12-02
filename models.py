@@ -26,10 +26,9 @@ class KProp(MessagePassing):
 
     def neighborhood_aggregation(self, x, adj_t):
 
+        similarity_adj = similarity_methods.compute_similarity_matrix('deepwalk', adj_t)
         if self.K <= 0:
             return x
-
-        similarity_adj = similarity_methods.compute_similarity_matrix('deepwalk', adj_t)
 
         if self.normalize:
             adj_t = gcn_norm(adj_t, add_self_loops=False)
@@ -37,7 +36,7 @@ class KProp(MessagePassing):
         if self.add_self_loops:
             adj_t = adj_t.set_diag()
 
-        for k in range(self.K-2):
+        for k in range(self.K):
             x = self.propagate(adj_t, x=x)
 
         similarity_adj = gcn_norm(similarity_adj, add_self_loops=False)

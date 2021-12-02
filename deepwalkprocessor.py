@@ -58,7 +58,7 @@ def get_similarity_matrix(adj_matrix , threshold=0.0001):
 
     min, max = np.amin(similarity_matrix), np.amax(similarity_matrix)
     print("Min: " + str(min) + " Max: " + str(max))
-    similarity_matrix = ((similarity_matrix <= threshold) & (similarity_matrix > 0)).astype(int)
+    similarity_matrix = ((similarity_matrix <= threshold) & (similarity_matrix > 0)).astype(float)
     # np.savetxt("similarity_matrix", similarity_matrix, fmt='%d')
     return similarity_matrix
 
