@@ -2,12 +2,16 @@ import numpy as np
 from numpy.linalg import norm
 import os
 import time
+import random
+import string
+
 
 def get_similarity_matrix(adj_matrix , threshold=0.0001):
     threshold = threshold
 
     unique_time =  round(time.time() * 1000)
-    path = './temp' + str(unique_time)
+    random_string = ''.join(random.choice(string.ascii_uppercase + string.digits + string.ascii_lowercase) for _ in range(5))
+    path = './temp' + str(unique_time) + random_string
 
     # Transform to adjlist for deepwalk.
     for i in range(len(adj_matrix)):
