@@ -2,7 +2,7 @@
 #SBATCH --gres=gpu:1
 #SBATCH --cpus-per-task=1   # maximum CPU cores per GPU request: 6 on Cedar, 16 on Graham.
 #SBATCH --mem=64000M        # memory per node
-#SBATCH --time=00:60:00     # time of the task
+#SBATCH --time=00:30:00     # time of the task
 #SBATCH --account=def-lelis
 #SBATCH --output=%N-%j.out
 #SBATCH --mail-user=saqib1@ualberta.ca
