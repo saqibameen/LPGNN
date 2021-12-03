@@ -27,6 +27,7 @@ class KProp(MessagePassing):
     def neighborhood_aggregation(self, x, adj_t):
 
         similarity_adj = similarity_methods.compute_similarity_matrix('deepwalk', adj_t)
+        print(similarity_adj)
         if self.K <= 0:
             return x
 
@@ -38,7 +39,8 @@ class KProp(MessagePassing):
 
         for k in range(self.K):
             x = self.propagate(adj_t, x=x)
-
+        
+        # consider the similar nodes aggregated features
         similarity_adj = gcn_norm(similarity_adj, add_self_loops=False)
         #similarity_adj.set_diag()
         x = self.propagate(similarity_adj,x=x)
@@ -168,3 +170,4 @@ class NodeClassifier(torch.nn.Module):
         loss *= y if weighted else 1
         loss = loss.sum(dim=1).mean()
         return loss
+        

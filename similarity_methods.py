@@ -10,9 +10,9 @@ deep_walk_similarity_matrix = None
 
 def compute_similarity_matrix(similarity_method, adjacency_matrix):
     if(similarity_method == 'grarep'):
-        get_grarep_similarity_matrix(adjacency_matrix)
+        return get_grarep_similarity_matrix(adjacency_matrix)
     elif(similarity_method == 'deepwalk'):
-        get_deep_walk_similairy_matrix(adjacency_matrix.to_dense().numpy())
+        return get_deep_walk_similairy_matrix(adjacency_matrix.to_dense().numpy())
 
 
 def get_grarep_similarity_matrix(adj_t, transition_steps=10, similarity_threshold=0.01):     
@@ -48,5 +48,5 @@ def get_deep_walk_similairy_matrix(adj_matrix):
         dense_adj_matrix = sparse_adj_matrix.to_dense()
         deep_walk_similarity_matrix = SparseTensor.from_dense(dense_adj_matrix)
         return deep_walk_similarity_matrix
-        
+
 

@@ -127,3 +127,4 @@ class FilterTopClass:
             data.test_mask = data.test_mask[idx]
 
         return data
+        
