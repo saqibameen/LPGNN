@@ -26,6 +26,6 @@ pip install -r requirements.txt
 module load cuda cudnn
 
 
-python3 experiments.py -n cora exec --id $SLURM_ARRAY_TASK_ID
+python3 ../experiments.py -n cora exec --id $SLURM_ARRAY_TASK_ID
 
 
