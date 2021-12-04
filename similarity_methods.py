@@ -71,7 +71,7 @@ def get_node2vec_similarity_matrix(adj_matrix, threshold = 0.999):
         G = nx.from_numpy_matrix(adj_matrix_np)
 
         # We can experiment with setting parameters here: https://github.com/eliorc/node2vec/blob/master/node2vec/node2vec.py
-        node2vec = Node2Vec(G, dimensions=64, walk_length=5, p=0.5, q=3, num_walks=10, workers=1)
+        node2vec = Node2Vec(G, dimensions=64, walk_length=35, p=0.5, q=3, num_walks=10, workers=1)
 
         # Get the model from the node2vec representation
         model = node2vec.fit()
