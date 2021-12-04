@@ -83,9 +83,6 @@ def get_node2vec_similarity_matrix(adj_matrix, threshold = 0.999):
         model.vectors = model.wv.syn0/np.linalg.norm(model.wv.syn0, axis=1)[:, None]
         similarity_matrix = np.dot(model.vectors, model.vectors.T)
 
-        print(np.max(similarity_matrix, axis=1))
-        print(np.min(similarity_matrix, axis=1))
-
         # Find which values are less than the threshold and cast it as a float 
         similarity_matrix = ((similarity_matrix >= threshold) & (similarity_matrix > 0)).astype(float)
         # Convert it to a form in torch 
