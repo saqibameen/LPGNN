@@ -15,7 +15,7 @@ y_epsilons = [1]
 x_steps = list(range(17))
 y_steps = list(range(17))
 learning_rates = [0.01, 0.001, 0.0001]
-models = ["sage", "gcn", "gat"]
+models = ["sage"]
 weight_decays = [0.01, 0.001, 0.0001, 0]
 dropouts = [0, 0.25, 0.5, 0.75]
 
@@ -39,6 +39,6 @@ for dataset in datasets:
         command = f'python main.py {options} {default_options}'
         cmd_list.append(command)
 
-    with open(os.path.join("./jobs/", f'{dataset}.jobs'), 'w') as file:
+    with open(os.path.join("./jobs/", dataset + '-' + models[0]  + '-' + str(x_epsilons[0]) + '.jobs'), 'w') as file:
         for cmd in cmd_list:
             file.write(cmd + '\n')
