@@ -6,7 +6,7 @@ import random
 import string
 
 
-def get_similarity_matrix(adj_matrix , threshold=0.0002):
+def get_similarity_matrix(adj_matrix , threshold=0.0001):
     threshold = threshold
 
     sys_random = random.SystemRandom()
