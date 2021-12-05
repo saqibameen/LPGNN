@@ -22,6 +22,7 @@ pip install torch_sparse --no-index
 pip install torch_scatter --no-index
 pip install torch_geometric --no-index
 pip install -r requirements.txt 
+pip install node2vec
 
 module load cuda cudnn
 
