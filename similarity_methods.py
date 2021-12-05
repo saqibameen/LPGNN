@@ -76,11 +76,11 @@ def get_node2vec_similarity_matrix(adj_matrix, threshold = 0.999):
         # Get the model from the node2vec representation
         model = node2vec.fit()
 
-        # A=model.wv.syn0 contains the list of vectors for each node in our graph
+        # A=model.wv.vectors contains the list of vectors for each node in our graph
         # Therefore AA^T contains all the dot products between pairs of words
 
         # Normalize the node vectors so that each row has norm of 1 
-        model.vectors = model.wv.syn0/np.linalg.norm(model.wv.syn0, axis=1)[:, None]
+        model.vectors = model.wv.vectors/np.linalg.norm(model.wv.vectors, axis=1)[:, None]
         similarity_matrix = np.dot(model.vectors, model.vectors.T)
 
         # Find which values are less than the threshold and cast it as a float 
