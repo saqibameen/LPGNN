@@ -17,4 +17,4 @@ source ./env/bin/activate
 # module load cuda cudnn
 
 
-python3 experiments.py -n cora-sage-0.01 exec --id $SLURM_ARRAY_TASK_ID
+python3 experiments.py -n cora exec --id $SLURM_ARRAY_TASK_ID
