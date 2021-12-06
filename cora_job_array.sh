@@ -6,7 +6,7 @@
 #SBATCH --output=%N-%j.out
 #SBATCH --mail-user=saqib1@ualberta.ca
 #SBATCH --mail-type=ALL
-#SBATCH --array=1-1
+#SBATCH --array=1-125
 
 export OMP_NUM_THREADS=$SLURM_CPUS_PER_TASK
 
