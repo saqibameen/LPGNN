@@ -5,54 +5,8 @@ from torch_geometric.utils import accuracy as accuracy_1d
 from torch.nn import Dropout, SELU
 from torch_geometric.nn import MessagePassing, SAGEConv, GCNConv, GATConv
 from torch_sparse import matmul
-import similarity_methods
 
-class SimGat(MessagePassing):
-    def __init__(self, steps, aggregator, add_self_loops, normalize, cached, transform=lambda x: x):
-        super().__init__(aggr=aggregator)
-        self.transform = transform
-        self.K = steps
-        self.add_self_loops = add_self_loops
-        self.normalize = normalize
-        self.cached = cached
-        self._cached_x = None
 
-    def forward(self, x, adj_t):
-        if self._cached_x is None or not self.cached:
-            self._cached_x = self.neighborhood_aggregation(x, adj_t)
-
-        return self._cached_x
-
-    def neighborhood_aggregation(self, x, adj_t):
-
-        similarity_adj = similarity_methods.compute_similarity_matrix('deepwalk', adj_t)
-        print(similarity_adj)
-        if self.K <= 0:
-            return x
-
-        if self.normalize:
-            adj_t = gcn_norm(adj_t, add_self_loops=False)
-
-        if self.add_self_loops:
-            adj_t = adj_t.set_diag()
-
-        for k in range(self.K):
-            x = self.propagate(adj_t, x=x)
-        
-        # for k in range(max(0,self.K-1)):
-            # x = self.propagate(adj_t, x=x)
-
-        # consider the similar nodes aggregated features
-        similarity_adj = gcn_norm(similarity_adj, add_self_loops=False)
-        #similarity_adj.set_diag()
-        x = self.propagate(similarity_adj,x=x)
-
-        x = self.transform(x)
-        return x
-
-    def message_and_aggregate(self, adj_t, x):  # noqa
-        return matmul(adj_t, x, reduce=self.aggr)
-    
 class KProp(MessagePassing):
     def __init__(self, steps, aggregator, add_self_loops, normalize, cached, transform=lambda x: x):
         super().__init__(aggr=aggregator)
@@ -140,8 +94,8 @@ class NodeClassifier(torch.nn.Module):
                  ):
         super().__init__()
 
-        self.x_prop = SimGat(steps=x_steps, aggregator='add', add_self_loops=False, normalize=True, cached=True)
-        self.y_prop = SimGat(steps=y_steps, aggregator='add', add_self_loops=False, normalize=True, cached=False,
+        self.x_prop = KProp(steps=x_steps, aggregator='add', add_self_loops=False, normalize=True, cached=True)
+        self.y_prop = KProp(steps=y_steps, aggregator='add', add_self_loops=False, normalize=True, cached=False,
                             transform=torch.nn.Softmax(dim=1))
 
         self.gnn = {'gcn': GCN, 'sage': GraphSAGE, 'gat': GAT}[model](
@@ -207,4 +161,3 @@ class NodeClassifier(torch.nn.Module):
         loss *= y if weighted else 1
         loss = loss.sum(dim=1).mean()
         return loss
-        
