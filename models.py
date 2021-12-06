@@ -39,6 +39,9 @@ class SimGat(MessagePassing):
         for k in range(self.K):
             x = self.propagate(adj_t, x=x)
         
+        # for k in range(max(0,self.K-1)):
+            # x = self.propagate(adj_t, x=x)
+
         # consider the similar nodes aggregated features
         similarity_adj = gcn_norm(similarity_adj, add_self_loops=False)
         #similarity_adj.set_diag()
