@@ -6,7 +6,7 @@ import random
 import string
 
 
-def get_similarity_matrix(adj_matrix , threshold=0.0001):
+def get_similarity_matrix(adj_matrix , threshold=0.00009):
     threshold = threshold
 
     sys_random = random.SystemRandom()
@@ -61,10 +61,11 @@ def get_similarity_matrix(adj_matrix , threshold=0.0001):
         sum_of_row = np.sum(similarity_matrix[i])
         similarity_matrix[i] = np.true_divide(similarity_matrix[i], sum_of_row)
 
-    # min, max = np.amin(similarity_matrix), np.amax(similarity_matrix)
-    # print("Min: " + str(min) + " Max: " + str(max))
+    min, max = np.amin(similarity_matrix), np.amax(similarity_matrix)
+    print("Min: " + str(min) + " Max: " + str(max))
     similarity_matrix = ((similarity_matrix <= threshold) & (similarity_matrix > 0)).astype(float)
-    # np.savetxt("similarity_matrix", similarity_matrix, fmt='%d')
+    np.savetxt("similarity_matrix", similarity_matrix, fmt='%d')
+    # similarity_matrix = np.loadtxt("similarity_matrix", dtype=float)
     return similarity_matrix
 
 # Example usage.
