@@ -17,4 +17,4 @@ source ./env/bin/activate
 # module load cuda cudnn
 
 
-python3 experiments.py -n facebook exec --id $SLURM_ARRAY_TASK_ID
+python3 experiments.py -n lastfm exec --id $SLURM_ARRAY_TASK_ID
