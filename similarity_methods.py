@@ -63,34 +63,38 @@ def get_node2vec_similarity_matrix(adj_matrix, threshold = 0.999):
     global node2vec_similarity_matrix 
     if node2vec_similarity_matrix is not None:
         return node2vec_similarity_matrix
-    else: 
-        adj_matrix_dense = adj_matrix.to_dense()
+    else:
+        try:
+            node2vec_similarity_matrix = torch.load('node2vecsimilar')
+            return node2vec_similarity_matrix
+        except:
+            adj_matrix_dense = adj_matrix.to_dense()
 
-        # Convert tensor to a numpy array
-        adj_matrix_np = adj_matrix_dense.cpu().detach().numpy()
+            # Convert tensor to a numpy array
+            adj_matrix_np = adj_matrix_dense.cpu().detach().numpy()
 
-        # Get the graph in networkx format so that we can input it into the node2vec model
-        G = nx.from_numpy_matrix(adj_matrix_np)
+            # Get the graph in networkx format so that we can input it into the node2vec model
+            G = nx.from_numpy_matrix(adj_matrix_np)
 
-        # We can experiment with setting parameters here: https://github.com/eliorc/node2vec/blob/master/node2vec/node2vec.py
-        node2vec = Node2Vec(G, dimensions=64, walk_length=35, p=0.5, q=3, num_walks=10, workers=1)
+            # We can experiment with setting parameters here: https://github.com/eliorc/node2vec/blob/master/node2vec/node2vec.py
+            node2vec = Node2Vec(G, dimensions=64, walk_length=35, p=0.5, q=3, num_walks=10, workers=1)
 
-        # Get the model from the node2vec representation
-        model = node2vec.fit()
+            # Get the model from the node2vec representation
+            model = node2vec.fit()
 
-        # A=model.wv.vectors contains the list of vectors for each node in our graph
-        # Therefore AA^T contains all the dot products between pairs of words
+            # A=model.wv.vectors contains the list of vectors for each node in our graph
+            # Therefore AA^T contains all the dot products between pairs of words
 
-        # Normalize the node vectors so that each row has norm of 1 
-        model.vectors = model.wv.vectors/np.linalg.norm(model.wv.vectors, axis=1)[:, None]
-        similarity_matrix = np.dot(model.vectors, model.vectors.T)
+            # Normalize the node vectors so that each row has norm of 1 
+            model.vectors = model.wv.vectors/np.linalg.norm(model.wv.vectors, axis=1)[:, None]
+            similarity_matrix = np.dot(model.vectors, model.vectors.T)
 
-        # Find which values are less than the threshold and cast it as a float 
-        similarity_matrix = ((similarity_matrix >= threshold) & (similarity_matrix > 0)).astype(float)
-        # Convert it to a form in torch 
-        similarity_matrix_torch = torch.from_numpy(similarity_matrix)
-        sparse_sim_matrix = similarity_matrix_torch.to_sparse()
-        dense_sim_matrix = sparse_sim_matrix.to_dense()
-        
-        node2vec_similarity_matrix = SparseTensor.from_dense(dense_sim_matrix)
-        return node2vec_similarity_matrix
+            # Find which values are less than the threshold and cast it as a float 
+            similarity_matrix = ((similarity_matrix >= threshold) & (similarity_matrix > 0)).astype(float)
+            # Convert it to a form in torch 
+            similarity_matrix_torch = torch.from_numpy(similarity_matrix)
+            sparse_sim_matrix = similarity_matrix_torch.to_sparse()
+            dense_sim_matrix = sparse_sim_matrix.to_dense()
+            
+            node2vec_similarity_matrix = SparseTensor.from_dense(dense_sim_matrix)
+            return node2vec_similarity_matrix
