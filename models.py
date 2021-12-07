@@ -25,8 +25,9 @@ class SimGat(MessagePassing):
 
     def neighborhood_aggregation(self, x, adj_t):
 
-        similarity_adj = similarity_methods.compute_similarity_matrix('deepwalk', adj_t)
-        print(similarity_adj)
+        similarity_adj = similarity_methods.compute_similarity_matrix('node2vec', adj_t)
+        #torch.save(similarity_adj, 'node2vecsimilar')
+        #print(similarity_adj)
         if self.K <= 0:
             return x
 
