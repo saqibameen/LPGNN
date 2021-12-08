@@ -612,7 +612,7 @@ kprop = df_baseline[(df_baseline['model'] == current_model) & (df_baseline['x_ep
 kprop_x = [0, 2, 4, 8, 16]
 kprop_y = kprop['test/acc_mean'].tolist()
 
-simgat_x = [0, 1, 3, 7, 15]
+simgat_x = [0, 2, 4, 8, 16]
 grarep_y = grarep['test/acc_mean'].tolist()
 deepwalk_y = deepwalk['test/acc_mean'].tolist()
 node2vec_y = node2vec['test/acc_mean'].tolist()
@@ -718,13 +718,13 @@ kprop = df_baseline[(df_baseline['model'] == current_model) & (df_baseline['x_ep
 kprop_x = [0, 2, 4, 8, 16]
 kprop_y = kprop['test/acc_mean'].tolist()
 
-simgat_x = [0, 2, 6, 14,]
+simgat_x = [0, 2, 4, 8, 16]
 grarep_y = grarep['test/acc_mean'].tolist()
-grarep_y = grarep_y[1:]
+# grarep_y = grarep_y[1:]
 deepwalk_y = deepwalk['test/acc_mean'].tolist()
-deepwalk_y = deepwalk_y[1:]
+# deepwalk_y = deepwalk_y[1:]
 node2vec_y = node2vec['test/acc_mean'].tolist()
-node2vec_y = node2vec_y[1:]
+# node2vec_y = node2vec_y[1:]
 
 
 plt.plot(kprop_x, kprop_y, marker='.', color=colors[0], linewidth=3, markersize=15)
