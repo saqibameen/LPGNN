@@ -1,6 +1,6 @@
 # Using Node Similarity to Achieve Local Differential Privacy in Graph Neural Networks
 
-This repo contains the artifacts for the CMPUT-622 course project. Baseline code forked and adopted from [**Locally Private Graph Neural Networks**](https://arxiv.org/abs/2006.05535). The implementation for DeepWalk is from https://github.com/phanein/deepwalk/tree/master/deepwalk. Finally, the implementation for Node2Vec was installed from https://github.com/eliorc/node2vec. 
+This repo contains the artifacts for the CMPUT-622 course project. Baseline code forked and adopted from [**Locally Private Graph Neural Networks**](https://arxiv.org/abs/2006.05535). The implementation for DeepWalk is adopted from original paper [author](https://github.com/phanein/deepwalk/tree/master/deepwalk). Finally, for node2vec, we use the [node2vec](https://pypi.org/project/node2vec/) Python package and adopt for our usage.
 
 ### Students: 
 
